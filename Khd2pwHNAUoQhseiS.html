@@ -1,0 +1,224 @@
+<html><head><base href="https://example.com/">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    width: 400px;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h1 {
+    color: #333;
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #ddd;
+    outline: none;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.input-group label {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    font-size: 16px;
+    color: #666;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.input-group input:focus ~ label,
+.input-group input:valid ~ label {
+    top: -20px;
+    font-size: 12px;
+    color: #4ecdc4;
+}
+
+.input-group input:focus {
+    border-bottom: 2px solid #4ecdc4;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background: #4ecdc4;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background: #45b7af;
+    transform: translateY(-2px);
+}
+
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+}
+
+.remember-forgot label {
+    color: #666;
+    cursor: pointer;
+}
+
+.remember-forgot a {
+    color: #4ecdc4;
+    text-decoration: none;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.register-link a {
+    color: #4ecdc4;
+    text-decoration: none;
+}
+
+.error-message {
+    color: #ff6b6b;
+    text-align: center;
+    margin-top: 10px;
+    display: none;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+</style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Welcome Back</h1>
+            <p>Please login to continue</p>
+        </div>
+        <form id="loginForm" onsubmit="return handleLogin(event)">
+            <div class="input-group">
+                <input type="email" id="email" required>
+                <label for="email">Email</label>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" required>
+                <label for="password">Password</label>
+            </div>
+            <div class="remember-forgot">
+                <label><input type="checkbox"> Remember me</label>
+                <a href="https://example.com/forgot-password">Forgot Password?</a>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+            <div class="error-message" id="errorMessage">Invalid email or password</div>
+        </form>
+        <div class="register-link">
+            <p>Don't have an account? <a href="https://example.com/register">Register here</a></p>
+        </div>
+    </div>
+
+<script>
+function handleLogin(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const errorMessage = document.getElementById('errorMessage');
+    const loginContainer = document.querySelector('.login-container');
+    
+    // Simple email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = 'Please enter a valid email address';
+        loginContainer.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+            loginContainer.style.animation = '';
+        }, 500);
+        return false;
+    }
+
+    // Simple password validation (at least 6 characters)
+    if (password.length < 6) {
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = 'Password must be at least 6 characters long';
+        loginContainer.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+            loginContainer.style.animation = '';
+        }, 500);
+        return false;
+    }
+
+    // Simulate API call
+    setTimeout(() => {
+        // For demo purposes, let's pretend the login is successful
+        // In a real application, you would make an API call here
+        if (email === "demo@example.com" && password === "password123") {
+            errorMessage.style.display = 'none';
+            alert('Login successful!');
+            // Redirect to dashboard or home page
+            // window.location.href = 'dashboard.html';
+        } else {
+            errorMessage.style.display = 'block';
+            errorMessage.textContent = 'Invalid email or password';
+            loginContainer.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                loginContainer.style.animation = '';
+            }, 500);
+        }
+    }, 1000);
+
+    return false;
+}
+
+// Add floating label effect
+document.querySelectorAll('.input-group input').forEach(input => {
+    input.addEventListener('focus', function() {
+        this.parentElement.classList.add('focused');
+    });
+    
+    input.addEventListener('blur', function() {
+        if (!this.value) {
+            this.parentElement.classList.remove('focused');
+        }
+    });
+});
+</script>
+</body></html>
